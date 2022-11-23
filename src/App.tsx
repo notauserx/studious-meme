@@ -2,7 +2,8 @@ import './App.css'
 
 const welcome = {
   greeting: 'Hey',
-  title: 'React', 
+  title: 'Stranger',
+  subtitle: 'Welcome welcome', 
 }
 
 const items = [
@@ -36,9 +37,40 @@ function App() {
 
   return (
     <div>
-      <h1>Hello {welcome.greeting} {welcome.title}</h1>
+      
+      <Banner />
+      <hr />
+      <Search />
+      <hr />
+      <List />
+    </div>
+  )
 
-      <ul>
+ 
+}
+
+function Banner() {
+  return (
+    <div>
+      <h1>{welcome.greeting} {welcome.title}</h1>
+      <h3>{welcome.subtitle}</h3>
+    </div>
+  )
+
+}
+
+function Search() {
+  return (
+    <div>
+      <label htmlFor="search">Search</label>
+      <input id="search" type="text" />
+    </div>
+  );
+}
+
+function List() {
+  return (
+    <ul>
         {items.map(function(item) {
             return (
               <li key={item.objectId}>
@@ -50,16 +82,9 @@ function App() {
                 <span> {item.points}</span>
               </li>
             );
-          })
-        }
+        })}
       </ul>
-
-      <label htmlFor="search">Search</label>
-      <input id="search" type="text" />
-    </div>
-  )
-
- 
+  );
 }
 
 export default App
