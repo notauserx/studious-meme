@@ -1,34 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
 
+const welcome = {
+  greeting: 'Hey',
+  title: 'React', 
+}
+
+const items = [
+  {
+    title: 'React',
+    url: 'https://reactjs.org/',
+    author: 'Jordan Walke',
+    num_commnets: 3,
+    point: 4,
+    objectId: 0,
+  },
+  {
+    title: 'Redux',
+    url: 'https://redux.js.org/',
+    author: 'Dan Abramov, Andrew Clark',
+    num_comments: 2,
+    points: 4,
+    objectId: 1,
+  },
+  {
+    title: 'mui',
+    url: 'https://mui.com/',
+    author: 'Tom Crockett',
+    num_comments: 4,
+    points: 3,
+    objectId: 2,
+  }
+]
+
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div>
+      <h1>Hello {welcome.greeting} {welcome.title}</h1>
+
+      <ul>
+        {items.map(function(item) {
+            return (
+              <li key={item.objectId}>
+                <span>
+                  <a href={item.url}>{item.title}</a>
+                </span>
+                <span> {item.author}</span>
+                <span> {item.num_comments}</span>
+                <span> {item.points}</span>
+              </li>
+            );
+          })
+        }
+      </ul>
+
+      <label htmlFor="search">Search</label>
+      <input id="search" type="text" />
     </div>
   )
+
+ 
 }
 
 export default App
