@@ -11,8 +11,8 @@ const items = [
     title: 'React',
     url: 'https://reactjs.org/',
     author: 'Jordan Walke',
-    num_commnets: 3,
-    point: 4,
+    num_comments: 3,
+    points: 4,
     objectId: 0,
   },
   {
