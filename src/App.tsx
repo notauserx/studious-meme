@@ -1,3 +1,4 @@
+import * as React from 'react';
 import './App.css'
 
 interface Story {
@@ -61,19 +62,22 @@ const Banner = () => (
 )
 
 const Search = () => {
+  const [searchTerm, setSearchTerm] = React.useState('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    
-    console.log(event);
-
-    console.log(event.target.value);
-
+    setSearchTerm(event.target.value);
   }
 
   return (
     <div>
       <label htmlFor="search">Search </label>
       <input id="search" type="text" onChange={handleChange} />
+
+      {searchTerm.length > 0 &&
+      <p>
+        Searching for <strong>{searchTerm}</strong>
+      </p>
+      }
     </div>
   );
 }
