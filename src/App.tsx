@@ -1,54 +1,62 @@
 import './App.css'
 
-const welcome = {
-  greeting: 'Hey',
-  title: 'Stranger',
-  subtitle: 'Welcome welcome',
+interface Story {
+  title: string;
+  url: string;
+  author: string;
+  num_comments: number;
+  points: number;
+  objectId: number;
+}
+interface ListProps {
+  list: Story[];
 }
 
-const items = [
-  {
-    title: 'React',
-    url: 'https://reactjs.org/',
-    author: 'Jordan Walke',
-    num_comments: 3,
-    points: 4,
-    objectId: 0,
-  },
-  {
-    title: 'Redux',
-    url: 'https://redux.js.org/',
-    author: 'Dan Abramov, Andrew Clark',
-    num_comments: 2,
-    points: 4,
-    objectId: 1,
-  },
-  {
-    title: 'mui',
-    url: 'https://mui.com/',
-    author: 'Tom Crockett',
-    num_comments: 4,
-    points: 3,
-    objectId: 2,
-  }
-]
 
-const App = () => (
-  <div>
+const App = () => {
+  const stories = [
+    {
+      title: 'React',
+      url: 'https://reactjs.org/',
+      author: 'Jordan Walke',
+      num_comments: 3,
+      points: 4,
+      objectId: 0,
+    },
+    {
+      title: 'Redux',
+      url: 'https://redux.js.org/',
+      author: 'Dan Abramov, Andrew Clark',
+      num_comments: 2,
+      points: 4,
+      objectId: 1,
+    },
+    {
+      title: 'mui',
+      url: 'https://mui.com/',
+      author: 'Tom Crockett',
+      num_comments: 4,
+      points: 3,
+      objectId: 2,
+    }
+  ];
+  return (
+    <div>
 
-    <Banner />
-    <hr />
-    <Search />
-    <hr />
-    <List />
+      <Banner />
+      <hr />
+      <Search />
+      <hr />
+      <List list={stories} />
 
-  </div>
-);
+    </div>
+  );
+}
 
 const Banner = () => (
   <div>
-    <h1>{welcome.greeting} {welcome.title}</h1>
-    <h3>{welcome.subtitle}</h3>
+    <h1>Welcome to hacker stories</h1>
+    <h3>Stories we love and hate</h3>
   </div>
 )
 
@@ -71,9 +79,9 @@ const Search = () => {
 }
 
 
-const List = () => (
+const List = (props: {list: Story[]}) => (
   <ul>
-    {items.map(item => {
+    {props.list.map(item => {
       return (
         <li key={item.objectId}>
           <span>
