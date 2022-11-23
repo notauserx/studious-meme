@@ -3,7 +3,7 @@ import './App.css'
 const welcome = {
   greeting: 'Hey',
   title: 'Stranger',
-  subtitle: 'Welcome welcome', 
+  subtitle: 'Welcome welcome',
 }
 
 const items = [
@@ -33,58 +33,49 @@ const items = [
   }
 ]
 
-function App() {
+const App = () => (
+  <div>
 
-  return (
-    <div>
-      
-      <Banner />
-      <hr />
-      <Search />
-      <hr />
-      <List />
-    </div>
-  )
+    <Banner />
+    <hr />
+    <Search />
+    <hr />
+    <List />
 
- 
-}
+  </div>
+);
 
-function Banner() {
-  return (
-    <div>
-      <h1>{welcome.greeting} {welcome.title}</h1>
-      <h3>{welcome.subtitle}</h3>
-    </div>
-  )
+const Banner = () => (
+  <div>
+    <h1>{welcome.greeting} {welcome.title}</h1>
+    <h3>{welcome.subtitle}</h3>
+  </div>
+)
 
-}
+const Search = () => (
+  <div>
+    <label htmlFor="search">Search </label>
+    <input id="search" type="text" />
+  </div>
+);
 
-function Search() {
-  return (
-    <div>
-      <label htmlFor="search">Search</label>
-      <input id="search" type="text" />
-    </div>
-  );
-}
 
-function List() {
-  return (
-    <ul>
-        {items.map(function(item) {
-            return (
-              <li key={item.objectId}>
-                <span>
-                  <a href={item.url}>{item.title}</a>
-                </span>
-                <span> {item.author}</span>
-                <span> {item.num_comments}</span>
-                <span> {item.points}</span>
-              </li>
-            );
-        })}
-      </ul>
-  );
-}
+const List = () => (
+  <ul>
+    {items.map(item => {
+      return (
+        <li key={item.objectId}>
+          <span>
+            <a href={item.url}>{item.title}</a>
+          </span>
+          <span> {item.author}</span>
+          <span> {item.num_comments}</span>
+          <span> {item.points}</span>
+        </li>
+      );
+    })}
+  </ul>
+);
+
 
 export default App
