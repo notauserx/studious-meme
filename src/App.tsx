@@ -72,7 +72,9 @@ const App = () => {
         label="Search"
         value={searchTerm}
         onInputChange={handleSearch}
-      />
+      >
+        <strong>Search:</strong>
+      </InputWithLabel>
       
       <hr />
       <List list={filteredStories} />
@@ -89,10 +91,17 @@ const Banner = () => (
 )
 
 const InputWithLabel = ({
-  id, label, value, type='text', onInputChange}: 
-  {id: string, label: string, value: string, type?: string, onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void} ) => (
+  id, label, value, type='text', onInputChange, children}: 
+  {
+    id: string, 
+    label: string, 
+    value: string, 
+    type?: string, 
+    onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    children: React.ReactNode
+  } ) => (
     <>
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id}>{children}</label>
       &nbsp;
       <input 
         id={id} 
