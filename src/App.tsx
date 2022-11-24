@@ -11,9 +11,9 @@ interface Story {
 }
 
 const useStorageState = (
-  key: string, 
+  key: string,
   initialState: string
-  ): [string, (newValue:string) => void] => {
+): [string, (newValue: string) => void] => {
   const [searchTerm, setSearchTerm] = React.useState(
     localStorage.getItem(key) || initialState
   );
@@ -26,31 +26,31 @@ const useStorageState = (
 }
 
 const initialStories = [
-    {
-      title: 'React',
-      url: 'https://reactjs.org/',
-      author: 'Jordan Walke',
-      num_comments: 3,
-      points: 4,
-      objectId: 0,
-    },
-    {
-      title: 'Redux',
-      url: 'https://redux.js.org/',
-      author: 'Dan Abramov, Andrew Clark',
-      num_comments: 2,
-      points: 4,
-      objectId: 1,
-    },
-    {
-      title: 'mui',
-      url: 'https://mui.com/',
-      author: 'Tom Crockett',
-      num_comments: 4,
-      points: 3,
-      objectId: 2,
-    }
-  ];
+  {
+    title: 'React',
+    url: 'https://reactjs.org/',
+    author: 'Jordan Walke',
+    num_comments: 3,
+    points: 4,
+    objectId: 0,
+  },
+  {
+    title: 'Redux',
+    url: 'https://redux.js.org/',
+    author: 'Dan Abramov, Andrew Clark',
+    num_comments: 2,
+    points: 4,
+    objectId: 1,
+  },
+  {
+    title: 'mui',
+    url: 'https://mui.com/',
+    author: 'Tom Crockett',
+    num_comments: 4,
+    points: 3,
+    objectId: 2,
+  }
+];
 
 const App = () => {
 
@@ -85,7 +85,7 @@ const App = () => {
       >
         <strong>Search:</strong>
       </InputWithLabel>
-      
+
       <hr />
       <List list={filteredStories} onRemoveItem={handleRemoveStory} />
 
@@ -111,16 +111,16 @@ const InputWithLabel = ({
     isFocused: boolean,
     children: React.ReactNode
   }) => {
-    // A. create a ref with react's useRef hook
-    const inputRef = React.useRef<HTMLElement>(null);
+  // A. create a ref with react's useRef hook
+  const inputRef = React.useRef<HTMLElement>(null);
 
-    // C
-    React.useEffect(() => {
-      if(isFocused && inputRef.current) {
-        // D
-        inputRef.current.focus();
-      }
-    }, [isFocused]);
+  // C
+  React.useEffect(() => {
+    if (isFocused && inputRef.current) {
+      // D
+      inputRef.current.focus();
+    }
+  }, [isFocused]);
 
   return (
     <>
@@ -145,7 +145,7 @@ const InputWithLabel = ({
 }
 
 const List = (
-  { list, onRemoveItem }: { list: Story[], onRemoveItem:(item: Story) => void }) => (
+  { list, onRemoveItem }: { list: Story[], onRemoveItem: (item: Story) => void }) => (
   <ul>
     {list.map(item => (
       <ListItem key={item.objectId} item={item} onRemoveItem={onRemoveItem} />
