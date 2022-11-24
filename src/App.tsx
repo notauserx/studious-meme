@@ -62,12 +62,18 @@ const getStoriesAsync = () : Promise<{ data: { stories: Story[]}}> =>
 
 const App = () => {
 
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isError, setIsError] = React.useState(false);
   const [stories, setStories] = React.useState<Story[]>([]);
 
   React.useEffect(() => {
-    getStoriesAsync().then((result: { data: { stories: Story[]; }; }) => {
-      setStories(result.data.stories);
-    })
+    setIsLoading(true);
+    getStoriesAsync()
+      .then((result: { data: { stories: Story[]; }; }) => {
+        setStories(result.data.stories);
+        setIsLoading(false);
+      })
+      .catch(() => setIsError(true));
   }, [])
 
   const handleRemoveStory = (item: Story) => {
@@ -101,7 +107,15 @@ const App = () => {
       </InputWithLabel>
 
       <hr />
-      <List list={filteredStories} onRemoveItem={handleRemoveStory} />
+
+      {isError && <p>Something went wrong ...</p>}
+
+      { isLoading ? (
+          <p>Loading ...</p>
+        ) : (
+          <List list={filteredStories} onRemoveItem={handleRemoveStory} />
+        )
+      }
 
     </div>
   );
