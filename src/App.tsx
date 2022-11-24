@@ -9,12 +9,9 @@ interface Story {
   points: number;
   objectId: number;
 }
-interface ListProps {
-  list: Story[];
-}
-
 
 const App = () => {
+
   const stories = [
     {
       title: 'React',
@@ -41,14 +38,23 @@ const App = () => {
       objectId: 2,
     }
   ];
+
+  const [searchTerm, setSearchTerm] = React.useState('');
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  }
+
+  const filteredStoried = stories.filter(x => x.title.toLowerCase().includes(searchTerm.toLowerCase()))
+
   return (
     <div>
 
       <Banner />
       <hr />
-      <Search />
+      <Search searchTerm={searchTerm} onSearch={handleSearch} />
       <hr />
-      <List list={stories} />
+      <List list={filteredStoried} />
 
     </div>
   );
@@ -61,27 +67,21 @@ const Banner = () => (
   </div>
 )
 
-const Search = () => {
-  const [searchTerm, setSearchTerm] = React.useState('');
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  }
+const Search = (props: { searchTerm:string, onSearch: (event: React.ChangeEvent<HTMLInputElement>) => void }) => {
 
   return (
     <div>
       <label htmlFor="search">Search </label>
-      <input id="search" type="text" onChange={handleChange} />
+      <input id="search" type="text" onChange={props.onSearch} />
 
-      {searchTerm.length > 0 &&
+      {props.searchTerm.length > 0 &&
       <p>
-        Searching for <strong>{searchTerm}</strong>
+        Searching for <strong>{props.searchTerm}</strong>
       </p>
       }
     </div>
   );
 }
-
 
 const List = (props: {list: Story[]}) => (
   <ul>
@@ -99,6 +99,5 @@ const List = (props: {list: Story[]}) => (
     })}
   </ul>
 );
-
 
 export default App
