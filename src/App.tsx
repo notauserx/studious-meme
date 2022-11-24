@@ -25,9 +25,7 @@ const useStorageState = (
   return [searchTerm, setSearchTerm];
 }
 
-const App = () => {
-
-  const stories = [
+const initialStories = [
     {
       title: 'React',
       url: 'https://reactjs.org/',
@@ -54,6 +52,17 @@ const App = () => {
     }
   ];
 
+const App = () => {
+
+  const [stories, setStories] = React.useState(initialStories);
+
+  const handleRemoveStory = (item: Story) => {
+    const newStories = stories.filter(s =>
+      item.objectId !== s.objectId);
+
+    setStories(newStories);
+  }
+
   const [searchTerm, setSearchTerm] = useStorageState('searchTerm', '');
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +87,7 @@ const App = () => {
       </InputWithLabel>
       
       <hr />
-      <List list={filteredStories} />
+      <List list={filteredStories} onRemoveItem={handleRemoveStory} />
 
     </div>
   );
@@ -136,15 +145,16 @@ const InputWithLabel = ({
 }
 
 const List = (
-  {list}: {list: Story[]}) => (
+  { list, onRemoveItem }: { list: Story[], onRemoveItem:(item: Story) => void }) => (
   <ul>
     {list.map(item => (
-      <ListItem key={item.objectId} item={item} />
+      <ListItem key={item.objectId} item={item} onRemoveItem={onRemoveItem} />
     ))}
   </ul>
 );
 
-const ListItem = ({ item }: { item: Story }) => (
+const ListItem = (
+  { item, onRemoveItem }: { item: Story, onRemoveItem: (item: Story) => void }) => (
   <li key={item.objectId}>
     <span>
       <a href={item.url}>{item.title}</a>
@@ -152,6 +162,9 @@ const ListItem = ({ item }: { item: Story }) => (
     <span> {item.author}</span>
     <span> {item.num_comments}</span>
     <span> {item.points}</span>
+    <span>
+      <button type="button" onClick={() => onRemoveItem(item)}>Dismiss</button>
+    </span>
   </li>
 )
 
