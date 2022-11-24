@@ -72,7 +72,10 @@ const Search = (props: { searchTerm:string, onSearch: (event: React.ChangeEvent<
   return (
     <div>
       <label htmlFor="search">Search </label>
-      <input id="search" type="text" onChange={props.onSearch} />
+      <input id="search" 
+              type="text" 
+              value={props.searchTerm} 
+              onChange={props.onSearch} />
 
       {props.searchTerm.length > 0 &&
       <p>
