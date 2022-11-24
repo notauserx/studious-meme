@@ -62,8 +62,6 @@ const App = () => {
 
   const filteredStories = stories.filter(x => x.title.toLowerCase().includes(searchTerm.toLowerCase()))
 
-  const isFocused = true;
-
   return (
     <div>
 
@@ -73,7 +71,7 @@ const App = () => {
         id="search"
         label="Search"
         value={searchTerm}
-        isFocused={isFocused}
+        isFocused={true}
         onInputChange={handleSearch}
       >
         <strong>Search:</strong>
