@@ -92,33 +92,48 @@ const Banner = () => (
 )
 
 const InputWithLabel = ({
-  id, label, value, type='text', onInputChange, isFocused, children}: 
+  id, label, value, type = 'text', onInputChange, isFocused, children }:
   {
-    id: string, 
-    label: string, 
-    value: string, 
-    type?: string, 
+    id: string,
+    label: string,
+    value: string,
+    type?: string,
     onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
     isFocused: boolean,
     children: React.ReactNode
-  } ) => (
+  }) => {
+    // A. create a ref with react's useRef hook
+    const inputRef = React.useRef<HTMLElement>(null);
+
+    // C
+    React.useEffect(() => {
+      if(isFocused && inputRef.current) {
+        // D
+        inputRef.current.focus();
+      }
+    }, [isFocused]);
+
+  return (
     <>
       <label htmlFor={id}>{children}</label>
       &nbsp;
-      <input 
-        id={id} 
-        type={type} 
-        value={value} 
+      {/* B. pass input ref to JSX-reserved ref attr*/}
+      <input
+        ref={inputRef}
+        id={id}
+        type={type}
+        value={value}
         autoFocus={isFocused}
-        onChange={onInputChange} 
+        onChange={onInputChange}
       />
 
       {value.length > 0 &&
-      <p>
-        Searching for <strong>{value}</strong>
-      </p>}
+        <p>
+          Searching for <strong>{value}</strong>
+        </p>}
     </>
-);
+  );
+}
 
 const List = (
   {list}: {list: Story[]}) => (
