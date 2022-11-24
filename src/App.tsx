@@ -67,40 +67,47 @@ const Banner = () => (
   </div>
 )
 
-const Search = (props: { searchTerm:string, onSearch: (event: React.ChangeEvent<HTMLInputElement>) => void }) => {
+type searchProps = {
+  searchTerm: string;
+  onSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+const Search : React.FC<searchProps> = ({searchTerm, onSearch}) => {
 
   return (
     <div>
       <label htmlFor="search">Search </label>
       <input id="search" 
               type="text" 
-              value={props.searchTerm} 
-              onChange={props.onSearch} />
+              value={searchTerm} 
+              onChange={onSearch} />
 
-      {props.searchTerm.length > 0 &&
+      {searchTerm.length > 0 &&
       <p>
-        Searching for <strong>{props.searchTerm}</strong>
+        Searching for <strong>{searchTerm}</strong>
       </p>
       }
     </div>
   );
 }
 
-const List = (props: {list: Story[]}) => (
+const List = (
+  {list}: {list: Story[]}) => (
   <ul>
-    {props.list.map(item => {
-      return (
-        <li key={item.objectId}>
-          <span>
-            <a href={item.url}>{item.title}</a>
-          </span>
-          <span> {item.author}</span>
-          <span> {item.num_comments}</span>
-          <span> {item.points}</span>
-        </li>
-      );
-    })}
+    {list.map(item => (
+      <ListItem key={item.objectId} item={item} />
+    ))}
   </ul>
 );
+
+const ListItem = ({ item }: { item: Story }) => (
+  <li key={item.objectId}>
+    <span>
+      <a href={item.url}>{item.title}</a>
+    </span>
+    <span> {item.author}</span>
+    <span> {item.num_comments}</span>
+    <span> {item.points}</span>
+  </li>
+)
 
 export default App
