@@ -39,11 +39,15 @@ const App = () => {
     }
   ];
 
-  const [searchTerm, setSearchTerm] = React.useState('');
+  const [searchTerm, setSearchTerm] = React.useState(
+    localStorage.getItem('search') || ''
+  );
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
-  }
+
+    localStorage.setItem('search', event.target.value);
+  };
 
   const filteredStoried = stories.filter(x => x.title.toLowerCase().includes(searchTerm.toLowerCase()))
 
