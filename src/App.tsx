@@ -49,7 +49,7 @@ const App = () => {
     localStorage.setItem('search', event.target.value);
   };
 
-  const filteredStoried = stories.filter(x => x.title.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredStories = stories.filter(x => x.title.toLowerCase().includes(searchTerm.toLowerCase()))
 
   return (
     <div>
@@ -58,7 +58,7 @@ const App = () => {
       <hr />
       <Search searchTerm={searchTerm} onSearch={handleSearch} />
       <hr />
-      <List list={filteredStoried} />
+      <List list={filteredStories} />
 
     </div>
   );
