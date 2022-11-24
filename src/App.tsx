@@ -67,7 +67,13 @@ const App = () => {
 
       <Banner />
       <hr />
-      <Search searchTerm={searchTerm} onSearch={handleSearch} />
+      <InputWithLabel
+        id="search"
+        label="Search"
+        value={searchTerm}
+        onInputChange={handleSearch}
+      />
+      
       <hr />
       <List list={filteredStories} />
 
@@ -82,28 +88,25 @@ const Banner = () => (
   </div>
 )
 
-type searchProps = {
-  searchTerm: string;
-  onSearch: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-const Search : React.FC<searchProps> = ({searchTerm, onSearch}) => {
-
-  return (
+const InputWithLabel = ({
+  id, label, value, type='text', onInputChange}: 
+  {id: string, label: string, value: string, type?: string, onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void} ) => (
     <>
-      <label htmlFor="search">Search </label>
-      <input id="search" 
-              type="text" 
-              value={searchTerm} 
-              onChange={onSearch} />
+      <label htmlFor={id}>{label}</label>
+      &nbsp;
+      <input 
+        id={id} 
+        type={type} 
+        value={value} 
+        onChange={onInputChange} 
+      />
 
-      {searchTerm.length > 0 &&
+      {value.length > 0 &&
       <p>
-        Searching for <strong>{searchTerm}</strong>
-      </p>
-      }
+        Searching for <strong>{value}</strong>
+      </p>}
     </>
-  );
-}
+);
 
 const List = (
   {list}: {list: Story[]}) => (
