@@ -62,6 +62,8 @@ const App = () => {
 
   const filteredStories = stories.filter(x => x.title.toLowerCase().includes(searchTerm.toLowerCase()))
 
+  const isFocused = true;
+
   return (
     <div>
 
@@ -71,6 +73,7 @@ const App = () => {
         id="search"
         label="Search"
         value={searchTerm}
+        isFocused={isFocused}
         onInputChange={handleSearch}
       >
         <strong>Search:</strong>
@@ -91,13 +94,14 @@ const Banner = () => (
 )
 
 const InputWithLabel = ({
-  id, label, value, type='text', onInputChange, children}: 
+  id, label, value, type='text', onInputChange, isFocused, children}: 
   {
     id: string, 
     label: string, 
     value: string, 
     type?: string, 
     onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    isFocused: boolean,
     children: React.ReactNode
   } ) => (
     <>
@@ -107,6 +111,7 @@ const InputWithLabel = ({
         id={id} 
         type={type} 
         value={value} 
+        autoFocus={isFocused}
         onChange={onInputChange} 
       />
 
