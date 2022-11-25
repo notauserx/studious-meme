@@ -7,7 +7,7 @@ interface Story {
   author: string;
   num_comments: number;
   points: number;
-  objectId: number;
+  objectID: number;
 }
 
 const useStorageState = (
@@ -51,14 +51,6 @@ const initialStories = [
     objectId: 2,
   }
 ];
-
-const getStoriesAsync = () : Promise<{ data: { stories: Story[]}}> =>
-  new Promise((resolve) =>
-    setTimeout(
-      () => resolve({ data: { stories: initialStories } }),
-      2000
-    )
-  );
 
 interface FetchStoriesInitAction {
   type: 'FETCH_STORIES_INIT'
@@ -122,12 +114,14 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
     case 'REMOVE_STORY':
       return {
           ...state,
-          data: state.data.filter((story : Story) => action.payload.objectId !== story.objectId),
+          data: state.data.filter((story : Story) => action.payload.objectID !== story.objectID),
       }
     default:
       throw new Error();
   }
 }
+
+const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
 
 const App = () => {
 
@@ -141,11 +135,12 @@ const App = () => {
   React.useEffect(() => {
     dispatchStories({ type: 'FETCH_STORIES_INIT' });
 
-    getStoriesAsync()
-      .then((result: { data: { stories: Story[]; }; }) => {
+    fetch(`${API_ENDPOINT}react`)
+      .then(responce => responce.json())
+      .then((result: { hits: Story[]; }) => {
         dispatchStories({
           type: 'FETCH_STORIES_SUCCESS',
-          payload: result.data.stories
+          payload: result.hits
         });
       })
       .catch(() => 
@@ -253,14 +248,14 @@ const List = (
   { list, onRemoveItem }: { list: Story[], onRemoveItem: (item: Story) => void }) => (
   <ul>
     {list.map(item => (
-      <ListItem key={item.objectId} item={item} onRemoveItem={onRemoveItem} />
+      <ListItem key={item.objectID} item={item} onRemoveItem={onRemoveItem} />
     ))}
   </ul>
 );
 
 const ListItem = (
   { item, onRemoveItem }: { item: Story, onRemoveItem: (item: Story) => void }) => (
-  <li key={item.objectId}>
+  <li key={item.objectID}>
     <span>
       <a href={item.url}>{item.title}</a>
     </span>
