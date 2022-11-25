@@ -155,21 +155,20 @@ const App = () => {
     { data: [], isLoading: false, isError: false }
   );
 
-  const handleFetchStories = React.useCallback(() => {
-    if(!searchTerm) return;
+  const handleFetchStories = React.useCallback(async () => {
+    if (!searchTerm) return;
 
-    dispatchStories({ type: 'FETCH_STORIES_INIT'});
+    dispatchStories({ type: 'FETCH_STORIES_INIT' });
 
-    axios(url)
-      .then((result: {data: { hits: Story[]; }}) => {
-        dispatchStories({
-          type: 'FETCH_STORIES_SUCCESS',
-          payload: result.data.hits
-        });
-      })
-      .catch(() =>
-        dispatchStories({ type: 'FETCH_STORIES_FAILURE' })
-      );
+    try {
+      const result = await axios(url);
+      dispatchStories({
+        type: 'FETCH_STORIES_SUCCESS',
+        payload: result.data.hits
+      });
+    } catch {
+      dispatchStories({ type: 'FETCH_STORIES_FAILURE' });
+    }
 
   }, [url]);
 
