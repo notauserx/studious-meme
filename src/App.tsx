@@ -170,7 +170,7 @@ const InputWithLabel = ({
     children: React.ReactNode
   }) => {
   // A. create a ref with react's useRef hook
-  const inputRef = React.useRef<HTMLElement>(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   // C
   React.useEffect(() => {
