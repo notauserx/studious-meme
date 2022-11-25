@@ -1,6 +1,33 @@
 import * as React from 'react';
 import './App.css'
 
+const initialStories = [
+  {
+    title: 'React',
+    url: 'https://reactjs.org/',
+    author: 'Jordan Walke',
+    num_comments: 3,
+    points: 4,
+    objectID: 0,
+  },
+  {
+    title: 'Redux',
+    url: 'https://redux.js.org/',
+    author: 'Dan Abramov, Andrew Clark',
+    num_comments: 2,
+    points: 4,
+    objectID: 1,
+  },
+  {
+    title: 'mui',
+    url: 'https://mui.com/',
+    author: 'Tom Crockett',
+    num_comments: 4,
+    points: 3,
+    objectID: 2,
+  }
+];
+
 interface Story {
   title: string;
   url: string;
@@ -25,33 +52,6 @@ const useStorageState = (
   return [searchTerm, setSearchTerm];
 }
 
-const initialStories = [
-  {
-    title: 'React',
-    url: 'https://reactjs.org/',
-    author: 'Jordan Walke',
-    num_comments: 3,
-    points: 4,
-    objectId: 0,
-  },
-  {
-    title: 'Redux',
-    url: 'https://redux.js.org/',
-    author: 'Dan Abramov, Andrew Clark',
-    num_comments: 2,
-    points: 4,
-    objectId: 1,
-  },
-  {
-    title: 'mui',
-    url: 'https://mui.com/',
-    author: 'Tom Crockett',
-    num_comments: 4,
-    points: 3,
-    objectId: 2,
-  }
-];
-
 interface FetchStoriesInitAction {
   type: 'FETCH_STORIES_INIT'
 }
@@ -65,11 +65,6 @@ interface FetchStoriesFailureAction {
   type: 'FETCH_STORIES_FAILURE'
 }
 
-interface SetStoriesAction {
-  type: 'SET_STORIES';
-  payload: Story[];
-}
-
 interface RemoveStoryAction {
   type: 'REMOVE_STORY';
   payload: Story;
@@ -81,12 +76,12 @@ type StoriesState = {
   isError: boolean,
 }
 
-type StoriesAction = 
- | FetchStoriesInitAction
- | FetchStoriesSuccessAction
- | FetchStoriesFailureAction
- | RemoveStoryAction
- 
+type StoriesAction =
+  | FetchStoriesInitAction
+  | FetchStoriesSuccessAction
+  | FetchStoriesFailureAction
+  | RemoveStoryAction
+
 const storiesReducer = (state: StoriesState, action: StoriesAction) => {
   switch (action.type) {
     case 'FETCH_STORIES_INIT':
@@ -95,7 +90,7 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
         isLoading: true,
         isError: false,
       }
-    
+
     case 'FETCH_STORIES_SUCCESS':
       return {
         ...state,
@@ -103,18 +98,18 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
         isError: false,
         data: action.payload,
       }
-    
+
     case 'FETCH_STORIES_FAILURE':
       return {
         ...state,
         isLoading: false,
         isError: true,
       }
-    
+
     case 'REMOVE_STORY':
       return {
-          ...state,
-          data: state.data.filter((story : Story) => action.payload.objectID !== story.objectID),
+        ...state,
+        data: state.data.filter((story: Story) => action.payload.objectID !== story.objectID),
       }
     default:
       throw new Error();
@@ -123,37 +118,22 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
 
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
 
-const App = () => {
-
-  //const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  //const [isError, setIsError] = React.useState(false);
-  const [stories, dispatchStories] = React.useReducer(
-    storiesReducer,
-    { data: [], isLoading: false, isError: false }
-  );
-
-  React.useEffect(() => {
-    dispatchStories({ type: 'FETCH_STORIES_INIT' });
-
-    fetch(`${API_ENDPOINT}react`)
+const getStoriesAsync = (hitApi: boolean, searchTerm: string): Promise<{ hits: Story[] }> => {
+  if (hitApi === true)
+    return fetch(`${API_ENDPOINT}${searchTerm}`)
       .then(responce => responce.json())
-      .then((result: { hits: Story[]; }) => {
-        dispatchStories({
-          type: 'FETCH_STORIES_SUCCESS',
-          payload: result.hits
-        });
-      })
-      .catch(() => 
-        dispatchStories({type: 'FETCH_STORIES_FAILURE'})
-      );
-  }, [])
 
-  const handleRemoveStory = (item: Story) => {
-    dispatchStories({
-      type: 'REMOVE_STORY',
-      payload:item
-    });
+  else {
+    return new Promise((resolve) =>
+      setTimeout(
+        () => resolve({ hits: initialStories }),
+        2000
+      )
+    );
   }
+}
+
+const App = () => {
 
   const [searchTerm, setSearchTerm] = useStorageState('searchTerm', '');
 
@@ -161,7 +141,36 @@ const App = () => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredStories = stories.data.filter(x => x.title.toLowerCase().includes(searchTerm.toLowerCase()))
+  const [stories, dispatchStories] = React.useReducer(
+    storiesReducer,
+    { data: [], isLoading: false, isError: false }
+  );
+
+  React.useEffect(() => {
+    if(!searchTerm) return;
+
+    dispatchStories({ type: 'FETCH_STORIES_INIT' });
+
+    getStoriesAsync(true, searchTerm)
+      .then((result: { hits: Story[]; }) => {
+        dispatchStories({
+          type: 'FETCH_STORIES_SUCCESS',
+          payload: result.hits
+        });
+      })
+      .catch(() =>
+        dispatchStories({ type: 'FETCH_STORIES_FAILURE' })
+      );
+  }, [searchTerm])
+
+  const handleRemoveStory = (item: Story) => {
+    dispatchStories({
+      type: 'REMOVE_STORY',
+      payload: item
+    });
+  }
+
+  
 
   return (
     <div>
@@ -183,10 +192,11 @@ const App = () => {
       {stories.isError && <p>Something went wrong ...</p>}
 
       {stories.isLoading ? (
-          <p>Loading ...</p>
-        ) : (
-          <List list={filteredStories} onRemoveItem={handleRemoveStory} />
-        )
+        <p>Loading ...</p>
+      ) : (
+        <List list={stories.data} onRemoveItem={handleRemoveStory} />
+        
+      )
       }
 
     </div>
