@@ -146,7 +146,7 @@ const App = () => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearchSubmit = () => {
+  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     setUrl(`${API_ENDPOINT}${searchTerm}`);
   };
 
@@ -183,28 +183,18 @@ const App = () => {
     });
   }
 
-  
+
 
   return (
     <div>
 
       <Banner />
       <hr />
-      <InputWithLabel
-        id="search"
-        label="Search"
-        value={searchTerm}
-        isFocused={true}
-        onInputChange={handleSearchInput}
-      >
-        <strong>Search:</strong>
-      </InputWithLabel>
-
-      <button
-        type="button"
-        disabled={!searchTerm}
-        onClick={handleSearchSubmit}
-      >Submit</button>
+      <SearchForm
+        searchTerm={searchTerm}
+        onSearchInput={handleSearchInput}
+        onSearchSubmit={handleSearchSubmit}
+      />
       <hr />
 
       {stories.isError && <p>Something went wrong ...</p>}
@@ -213,7 +203,7 @@ const App = () => {
         <p>Loading ...</p>
       ) : (
         <List list={stories.data} onRemoveItem={handleRemoveStory} />
-        
+
       )
       }
 
@@ -226,6 +216,30 @@ const Banner = () => (
     <h1>Welcome to hacker stories</h1>
     <h3>Stories we love and hate</h3>
   </div>
+)
+
+const SearchForm = ({
+  searchTerm, onSearchInput, onSearchSubmit
+}: {
+  searchTerm: string,
+  onSearchInput: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  onSearchSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+}) => (
+  <form onSubmit={onSearchSubmit} >
+    <InputWithLabel
+      id="search"
+      label="Search"
+      value={searchTerm}
+      isFocused
+      onInputChange={onSearchInput}
+    >
+      <strong>Search:</strong>
+    </InputWithLabel>
+
+    <button type="submit" disabled={!searchTerm}>
+      Submit
+    </button>
+  </form>
 )
 
 const InputWithLabel = ({
