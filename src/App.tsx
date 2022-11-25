@@ -137,8 +137,16 @@ const App = () => {
 
   const [searchTerm, setSearchTerm] = useStorageState('searchTerm', '');
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const [url, setUrl] = React.useState(
+    `${API_ENDPOINT}${searchTerm}`
+  );
+
+  const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
+  };
+
+  const handleSearchSubmit = () => {
+    setUrl(`${API_ENDPOINT}${searchTerm}`);
   };
 
   const [stories, dispatchStories] = React.useReducer(
@@ -146,12 +154,13 @@ const App = () => {
     { data: [], isLoading: false, isError: false }
   );
 
-  React.useEffect(() => {
+  const handleFetchStories = React.useCallback(() => {
     if(!searchTerm) return;
 
-    dispatchStories({ type: 'FETCH_STORIES_INIT' });
+    dispatchStories({ type: 'FETCH_STORIES_INIT'});
 
-    getStoriesAsync(true, searchTerm)
+    fetch(url)
+      .then(response => response.json())
       .then((result: { hits: Story[]; }) => {
         dispatchStories({
           type: 'FETCH_STORIES_SUCCESS',
@@ -161,7 +170,12 @@ const App = () => {
       .catch(() =>
         dispatchStories({ type: 'FETCH_STORIES_FAILURE' })
       );
-  }, [searchTerm])
+
+  }, [url]);
+
+  React.useEffect(() => {
+    handleFetchStories()
+  }, [handleFetchStories]);
 
   const handleRemoveStory = (item: Story) => {
     dispatchStories({
@@ -182,11 +196,16 @@ const App = () => {
         label="Search"
         value={searchTerm}
         isFocused={true}
-        onInputChange={handleSearch}
+        onInputChange={handleSearchInput}
       >
         <strong>Search:</strong>
       </InputWithLabel>
 
+      <button
+        type="button"
+        disabled={!searchTerm}
+        onClick={handleSearchSubmit}
+      >Submit</button>
       <hr />
 
       {stories.isError && <p>Something went wrong ...</p>}
