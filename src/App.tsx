@@ -119,21 +119,6 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
 
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
 
-const getStoriesAsync = (hitApi: boolean, searchTerm: string): Promise<{ hits: Story[] }> => {
-  if (hitApi === true)
-    return fetch(`${API_ENDPOINT}${searchTerm}`)
-      .then(responce => responce.json())
-
-  else {
-    return new Promise((resolve) =>
-      setTimeout(
-        () => resolve({ hits: initialStories }),
-        2000
-      )
-    );
-  }
-}
-
 const App = () => {
 
   const [searchTerm, setSearchTerm] = useStorageState('searchTerm', '');
@@ -155,16 +140,17 @@ const App = () => {
     { data: [], isLoading: false, isError: false }
   );
 
-  const handleFetchStories = React.useCallback(async () => {
+  const handleFetchStories = React.useCallback(async (useApiCall: boolean) => {
     if (!searchTerm) return;
 
     dispatchStories({ type: 'FETCH_STORIES_INIT' });
 
     try {
-      const result = await axios(url);
       dispatchStories({
         type: 'FETCH_STORIES_SUCCESS',
-        payload: result.data.hits
+        payload: useApiCall
+          ? (await axios(url)).data.hits
+          : initialStories
       });
     } catch {
       dispatchStories({ type: 'FETCH_STORIES_FAILURE' });
@@ -173,7 +159,8 @@ const App = () => {
   }, [url]);
 
   React.useEffect(() => {
-    handleFetchStories()
+    // pass true to call the api, false to use dummy data.
+    handleFetchStories(true)
   }, [handleFetchStories]);
 
   const handleRemoveStory = (item: Story) => {
