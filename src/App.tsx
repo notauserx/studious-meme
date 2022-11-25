@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './App.css'
+import axios from 'axios';
 
 const initialStories = [
   {
@@ -159,12 +160,11 @@ const App = () => {
 
     dispatchStories({ type: 'FETCH_STORIES_INIT'});
 
-    fetch(url)
-      .then(response => response.json())
-      .then((result: { hits: Story[]; }) => {
+    axios(url)
+      .then((result: {data: { hits: Story[]; }}) => {
         dispatchStories({
           type: 'FETCH_STORIES_SUCCESS',
-          payload: result.hits
+          payload: result.data.hits
         });
       })
       .catch(() =>
