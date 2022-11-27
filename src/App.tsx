@@ -173,7 +173,8 @@ const App = () => {
 
 
   return (
-    <div>
+    
+    <div className="container mx-auto py-12 px-6 min-h-screen">
 
       <Banner />
       <hr />
@@ -187,7 +188,9 @@ const App = () => {
       {stories.isError && <p>Something went wrong ...</p>}
 
       {stories.isLoading ? (
+        <>
         <p>Loading ...</p>
+        </>
       ) : (
         <List list={stories.data} onRemoveItem={handleRemoveStory} />
 
@@ -195,11 +198,12 @@ const App = () => {
       }
 
     </div>
+    
   );
 }
 
 const Banner = () => (
-  <div>
+  <div className="text-center m-2">
     <h1>Welcome to hacker stories</h1>
     <h3>Stories we love and hate</h3>
   </div>
@@ -212,7 +216,7 @@ const SearchForm = ({
   onSearchInput: (event: React.ChangeEvent<HTMLInputElement>) => void,
   onSearchSubmit: (event: React.FormEvent<HTMLFormElement>) => void
 }) => (
-  <form onSubmit={onSearchSubmit} >
+  <form className='text-center' onSubmit={onSearchSubmit} >
     <InputWithLabel
       id="search"
       label="Search"
@@ -223,7 +227,9 @@ const SearchForm = ({
       <strong>Search:</strong>
     </InputWithLabel>
 
-    <button type="submit" disabled={!searchTerm}>
+    <button type="submit" disabled={!searchTerm}
+      className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+    >
       Submit
     </button>
   </form>
@@ -264,11 +270,6 @@ const InputWithLabel = ({
         autoFocus={isFocused}
         onChange={onInputChange}
       />
-
-      {value.length > 0 &&
-        <p>
-          Searching for <strong>{value}</strong>
-        </p>}
     </>
   );
 }
@@ -292,9 +293,9 @@ const ListItem = (
     <span style={{ width: '40%'}}>
       <a href={item.url}>{item.title}</a>
     </span>
-    <span style={{ width: '30%'}}> {item.author}</span>
-    <span style={{ width: '10%'}}> {item.num_comments}</span>
-    <span style={{ width: '10%'}}> {item.points}</span>
+    <span style={{ width: '30%'}}> by {item.author}</span>
+    <span style={{ width: '10%'}}> {item.num_comments} comments</span>
+    <span style={{ width: '10%'}}> {item.points} points</span>
     <span style={{ width: '10%'}}>
       <button 
         type="button" 
