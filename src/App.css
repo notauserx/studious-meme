@@ -43,7 +43,7 @@
   30%,
   100% {
     opacity: 1;
-    tansform: translateY(0);
+    transform: translateY(0);
   }
 }
 

@@ -1,6 +1,10 @@
-import * as React from 'react';
+
+import { useState, useEffect, useRef, useReducer, useCallback, ChangeEvent, FormEvent, ReactNode } from "react";
+
 import './App.css'
 import axios from 'axios';
+
+import TopNavigation from './components/TopNavigation';
 
 const initialStories = [
   {
@@ -42,11 +46,11 @@ const useStorageState = (
   key: string,
   initialState: string
 ): [string, (newValue: string) => void] => {
-  const [searchTerm, setSearchTerm] = React.useState(
+  const [searchTerm, setSearchTerm] = useState(
     localStorage.getItem(key) || initialState
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     localStorage.setItem(key, searchTerm)
   }, [searchTerm]);
 
@@ -123,24 +127,24 @@ const App = () => {
 
   const [searchTerm, setSearchTerm] = useStorageState('searchTerm', '');
 
-  const [url, setUrl] = React.useState(
+  const [url, setUrl] = useState(
     `${API_ENDPOINT}${searchTerm}`
   );
 
-  const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     setUrl(`${API_ENDPOINT}${searchTerm}`);
   };
 
-  const [stories, dispatchStories] = React.useReducer(
+  const [stories, dispatchStories] = useReducer(
     storiesReducer,
     { data: [], isLoading: false, isError: false }
   );
 
-  const handleFetchStories = React.useCallback(async (useApiCall: boolean) => {
+  const handleFetchStories = useCallback(async (useApiCall: boolean) => {
     if (!searchTerm) return;
 
     dispatchStories({ type: 'FETCH_STORIES_INIT' });
@@ -158,7 +162,7 @@ const App = () => {
 
   }, [url]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // pass true to call the api, false to use dummy data.
     handleFetchStories(false)
   }, [handleFetchStories]);
@@ -174,8 +178,8 @@ const App = () => {
 
   return (
     
-    <div className="container mx-auto py-12 px-6 min-h-screen">
-
+    <div className="flex">
+      <TopNavigation />
       <Banner />
       <hr />
       <SearchForm
@@ -213,8 +217,8 @@ const SearchForm = ({
   searchTerm, onSearchInput, onSearchSubmit
 }: {
   searchTerm: string,
-  onSearchInput: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  onSearchSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+  onSearchInput: (event: ChangeEvent<HTMLInputElement>) => void,
+  onSearchSubmit: (event: FormEvent<HTMLFormElement>) => void
 }) => (
   <form className='text-center' onSubmit={onSearchSubmit} >
     <InputWithLabel
@@ -242,15 +246,15 @@ const InputWithLabel = ({
     label: string,
     value: string,
     type?: string,
-    onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    onInputChange: (event: ChangeEvent<HTMLInputElement>) => void,
     isFocused: boolean,
-    children: React.ReactNode
+    children: ReactNode
   }) => {
   // A. create a ref with react's useRef hook
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // C
-  React.useEffect(() => {
+  useEffect(() => {
     if (isFocused && inputRef.current) {
       // D
       inputRef.current.focus();

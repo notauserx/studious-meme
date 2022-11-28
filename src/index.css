@@ -15,4 +15,23 @@
 }
 
 @tailwind components;
+
+@layer components {
+  
+  .top-navigation {
+    @apply fixed flex flex-row items-center justify-evenly bg-gray-300 dark:bg-slate-800 bg-opacity-90 w-full h-16 m-0 shadow-lg;
+  }
+  .content-container {
+    @apply flex flex-row bg-gray-300 dark: bg-slate-700 m-0 h-full w-full overflow-hidden;
+  }
+}
+
 @tailwind utilities;
+
+::-webkit-scrollbar {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-500 dark:bg-green-400;
+}
