@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ChangeEvent, FormEvent, useCallback, useEffect, useReducer, useState } from "react";
 import useLocalStorageState from "../../hooks/useStorageState";
-import Search from "../Search";
+import SearchForm from "./searchForm";
 import { storiesReducer, initialStories, Story } from "./types";
 
 
@@ -10,19 +10,20 @@ const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
 
 const StoriesContainer = () => {
 
-  const [searchTerm, setSearchTerm] = useLocalStorageState('searchTerm', '');
+  const [searchTerm, setSearchTerm] = useLocalStorageState('searchTerm', 'react');
 
   const [url, setUrl] = useState(
     `${API_ENDPOINT}${searchTerm}`
   );
 
-  const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
+ const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     setUrl(`${API_ENDPOINT}${searchTerm}`);
   };
+ 
 
   const [stories, dispatchStories] = useReducer(
     storiesReducer,
@@ -62,9 +63,13 @@ const StoriesContainer = () => {
   return (
     <>
     <div className="w-1/4">
-            <Search />            
+            <SearchForm 
+              searchTerm={searchTerm}
+              onSearchInput={handleSearchInput}
+              onSearchSubmit={handleSearchSubmit}
+            />            
           </div>
-          <div className="w-3/4">
+          <div className="w-3/4 pl-6">
             {stories.isError && <p>Something went wrong ...</p>}
 
             {stories.isLoading ? (
