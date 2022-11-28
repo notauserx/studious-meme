@@ -177,32 +177,34 @@ const App = () => {
 
 
   return (
-    
-    <div className="flex">
-      <TopNavigation />
-      <Banner />
-      <hr />
-      <SearchForm
-        searchTerm={searchTerm}
-        onSearchInput={handleSearchInput}
-        onSearchSubmit={handleSearchSubmit}
-      />
-      <hr />
+    <>
+      <div className="flex flex-row flex-wrap dark:bg-slate-900">
+        <div className="w-full mb-8">
+          <TopNavigation></TopNavigation>
+        </div>
+          <div className="w-1/5">
+          <hr />
+          <SearchForm
+            searchTerm={searchTerm}
+            onSearchInput={handleSearchInput}
+            onSearchSubmit={handleSearchSubmit}
+          />
+        </div>
+        <div className="w-3/5">
+          {stories.isError && <p>Something went wrong ...</p>}
 
-      {stories.isError && <p>Something went wrong ...</p>}
-
-      {stories.isLoading ? (
-        <>
-        <p>Loading ...</p>
-        </>
-      ) : (
-        <List list={stories.data} onRemoveItem={handleRemoveStory} />
-
-      )
-      }
-
-    </div>
-    
+          {stories.isLoading ? (
+            <>
+              <p>Loading ...</p>
+            </>
+          ) : (
+            <List list={stories.data} onRemoveItem={handleRemoveStory} />
+          )}
+        </div>
+        <div className="text-center w-1/5"></div>
+        <div className="w-full">Footer</div>
+        </div>
+    </>
   );
 }
 

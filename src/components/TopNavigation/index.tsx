@@ -1,18 +1,38 @@
 
-import { SunIcon, MoonIcon, HashtagIcon } from "@heroicons/react/24/outline";
+import {
+  FaSearch,
+  FaHackerNews,
+  FaRegBell,
+  FaGithub,
+  FaMoon,
+  FaSun,
+} from 'react-icons/fa';
 import useTheme from '../../hooks/useTheme';
 
 
 const TopNavigation = () => {
   return (
     <div className='top-navigation'>
-      <HashtagIcon className="h-6 w-6" />
+    <div className="flex items-center justify-between p-4">
+
+      <FaHackerNews className='top-navigation-icon'/>
+      
       <Title />
+      <MenuItems />
       <ThemeIcon />
+      <GitHubIcon />
+    </div>
     </div>
   );
 };
 
+const MenuItems = () => {
+  return (
+    <>
+      
+    </>
+  )
+}
 
 const ThemeIcon = () => {
  
@@ -20,18 +40,22 @@ const ThemeIcon = () => {
 
   const icon = theme === 'dark' ? (
     <span onClick={() => setTheme('')}>
-      <MoonIcon className="h-6 w-6"/>
+      <FaMoon className="h-6 w-6 top-navigation-icon"/>
     </span>
   ) : (
     <span onClick={() => setTheme('dark')}>
-      <SunIcon  className="h-6 w-6"/>
+      <FaSun  className="top-navigation-icon"/>
     </span>
   )
 
   return icon; 
 }
 
-
+const GitHubIcon = () => (
+  <a href='https://github.com/notauserx/studious-meme' target='_blank'>
+    <FaGithub className='top-navigation-icon'></FaGithub>
+  </a>
+)
 
 const Title = () => <h5 className='title-text'>Studious-memes</h5>;
 
