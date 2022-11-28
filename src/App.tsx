@@ -1,11 +1,13 @@
 
 import { useState, useEffect, useRef, useReducer, useCallback, ChangeEvent, FormEvent, ReactNode } from "react";
-
+import {FaSearch } from "react-icons/fa"
 import './App.css'
 import axios from 'axios';
 
 import TopNavigation from './components/TopNavigation';
-
+//import Search from './components/Search';
+import useLocalStorageState from "./hooks/useStorageState";
+import Search from "./components/Search";
 const initialStories = [
   {
     title: 'React',
@@ -41,6 +43,7 @@ interface Story {
   points: number;
   objectID: number;
 }
+
 
 const useStorageState = (
   key: string,
@@ -125,7 +128,7 @@ const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
 
 const App = () => {
 
-  const [searchTerm, setSearchTerm] = useStorageState('searchTerm', '');
+  const [searchTerm, setSearchTerm] = useLocalStorageState('searchTerm', '');
 
   const [url, setUrl] = useState(
     `${API_ENDPOINT}${searchTerm}`
@@ -176,34 +179,37 @@ const App = () => {
 
 
 
+
   return (
     <>
-      <div className="flex flex-row flex-wrap dark:bg-slate-900">
-        <div className="w-full mb-8">
+        <div className="w-full">
           <TopNavigation></TopNavigation>
         </div>
-          <div className="w-1/5">
-          <hr />
-          <SearchForm
-            searchTerm={searchTerm}
-            onSearchInput={handleSearchInput}
-            onSearchSubmit={handleSearchSubmit}
-          />
-        </div>
-        <div className="w-3/5">
-          {stories.isError && <p>Something went wrong ...</p>}
+        <div className="flex relative min-h-screen mx-auto p-8 dark:bg-slate-800 dark:text-gray-200">
+          <div className="w-1/4">
+            <Search />
+            {/*
+            <SearchForm
+              searchTerm={searchTerm}
+              onSearchInput={handleSearchInput}
+              onSearchSubmit={handleSearchSubmit}
+            />
+            */}
+          </div>
+          <div className="w-3/4">
+            {stories.isError && <p>Something went wrong ...</p>}
 
-          {stories.isLoading ? (
-            <>
-              <p>Loading ...</p>
-            </>
-          ) : (
-            <List list={stories.data} onRemoveItem={handleRemoveStory} />
-          )}
+            {stories.isLoading ? (
+              <>
+                <p>Loading ...</p>
+              </>
+            ) : (
+              <List list={stories.data} onRemoveItem={handleRemoveStory} />
+            )}
+          </div>
+         
         </div>
-        <div className="text-center w-1/5"></div>
         <div className="w-full">Footer</div>
-        </div>
     </>
   );
 }
