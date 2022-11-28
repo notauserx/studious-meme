@@ -1,5 +1,6 @@
 import {
   FaHackerNews,
+  FaReadme,
   FaGithub,
   FaMoon,
   FaSun,
@@ -11,10 +12,11 @@ const TopNavigation = () => {
     <div className="top-navigation">
       <div className="flex items-center justify-between p-4">
         <FaHackerNews className="top-navigation-icon" />
-
         <Title />
         <MenuItems />
+
         <ThemeToggle />
+        <ApiReferenceLink />
         <GitHubLink />
       </div>
     </div>
@@ -47,6 +49,12 @@ const GitHubLink = () => (
     <FaGithub className="top-navigation-icon"></FaGithub>
   </a>
 );
+
+const ApiReferenceLink = () => (
+  <a href="https://hn.algolia.com/api" target="_blank">
+    <FaReadme className="top-navigation-icon"></FaReadme>
+  </a>
+)
 
 const Title = () => <h5 className="title-text">Studious-memes</h5>;
 
