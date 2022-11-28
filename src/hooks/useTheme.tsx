@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import useStorageState from "./useStorageState";
 
-const useTheme = () => {
-  const [theme, setTheme] = useStorageState("theme", "dark");
+const useTheme = 
+  (): [string, (newValue:string) => void] => {
+  const [theme, setTheme] = useStorageState("theme", "");
 
   useEffect(() => {    
     const darkName = 'dark';
@@ -14,7 +15,7 @@ const useTheme = () => {
     else documentClass.remove('dark');
   }, [theme, setTheme]);
 
-  return [theme, setTheme] as const;
+  return [theme, setTheme];
 };
 
 export default useTheme;
