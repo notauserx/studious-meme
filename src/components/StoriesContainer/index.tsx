@@ -23,7 +23,6 @@ const StoriesContainer = () => {
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     setUrl(`${API_ENDPOINT}${searchTerm}`);
   };
- 
 
   const [stories, dispatchStories] = useReducer(
     storiesReducer,
@@ -50,7 +49,7 @@ const StoriesContainer = () => {
 
   useEffect(() => {
     // pass true to call the api, false to use dummy data.
-    handleFetchStories(false)
+    handleFetchStories(true)
   }, [handleFetchStories]);
 
   const handleRemoveStory = (item: Story) => {
@@ -83,7 +82,6 @@ const StoriesContainer = () => {
           </>
   )
 }
-
 
 const List = (
   { list, onRemoveItem }: { list: Story[], onRemoveItem: (item: Story) => void }) => (
