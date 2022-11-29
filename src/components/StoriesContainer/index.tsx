@@ -3,7 +3,7 @@ import { ChangeEvent, FormEvent, useCallback, useEffect, useReducer, useState } 
 import useLocalStorageState from "../../hooks/useStorageState";
 import SearchForm from "./searchForm";
 import { storiesReducer, initialStories, Story } from "./types";
-
+import { FaExternalLinkAlt } from 'react-icons/fa'
 
 
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
@@ -76,43 +76,61 @@ const StoriesContainer = () => {
                 <p>Loading ...</p>
               </>
             ) : (
-              <List list={stories.data} onRemoveItem={handleRemoveStory} />
+              <StudiousMemesContainer list={stories.data} onRemoveItem={handleRemoveStory} />
             )}
           </div>
           </>
   )
 }
 
-const List = (
-  { list, onRemoveItem }: { list: Story[], onRemoveItem: (item: Story) => void }) => (
-  <div className='list-container'>
-    <ul>
-      {list.map(item => (
-        <ListItem key={item.objectID} item={item} onRemoveItem={onRemoveItem} />
+const StudiousMemesContainer = ({
+  list,
+  onRemoveItem,
+}: {
+  list: Story[];
+  onRemoveItem: (item: Story) => void;
+}) => (
+  <>
+    <div className="main flex flex-col m-5">
+      <div className="header">
+        <div className="text-3xl font-bold text-gray-600 mb-4">
+          Stories from Hacker news api
+        </div>
+      </div>
+
+      {list.map((s) => (
+        <StudiousMeme item={s} onRemoveItem={onRemoveItem} />
       ))}
-    </ul>
-  </div>
+    </div>
+  </>
 );
 
-const ListItem = (
-  { item, onRemoveItem }: { item: Story, onRemoveItem: (item: Story) => void }) => (
-  <li
-   className='item' 
-   key={item.objectID}>
-    <span style={{ width: '40%'}}>
-      <a href={item.url}>{item.title}</a>
-    </span>
-    <span style={{ width: '30%'}}> by {item.author}</span>
-    <span style={{ width: '10%'}}> {item.num_comments} comments</span>
-    <span style={{ width: '10%'}}> {item.points} points</span>
-    <span style={{ width: '10%'}}>
-      <button 
-        type="button" 
-        className='button button-small'
-        onClick={() => onRemoveItem(item)}>
-          Dismiss</button>
-    </span>
-  </li>
-)
+const StudiousMeme = ({
+  item,
+  onRemoveItem,
+}: {
+  item: Story;
+  onRemoveItem: (item: Story) => void;
+}) => (
+  <>
+    <div className="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500">
+      <div className="left">
+        <div className="header text-blue-600 font-semibold text-2xl">
+          {item.title}
+        </div>
+        <div className="desc text-gray-600">
+          {item.author} 
+          : {item.num_comments} comments
+          : {item.points} points
+        </div>
+      </div>
+      <div className="right m-auto mr-0">
+        <a href={item.url} target="_blank">
+          <FaExternalLinkAlt />
+        </a>
+      </div>
+    </div>
+  </>
+);
 
 export default StoriesContainer;
