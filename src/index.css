@@ -35,7 +35,7 @@
   }
 
   .title-text {
-    @apply text-xl text-gray-500 tracking-wider font-semibold text-opacity-80 mr-auto ml-2 my-auto transition duration-300 ease-in-out;
+    @apply text-xl text-gray-800 dark:text-white tracking-wider font-semibold text-opacity-80 mr-auto ml-2 my-auto transition duration-300 ease-in-out;
   }
 
   .search {
@@ -65,6 +65,6 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-500 dark:bg-gray-800;
+  @apply bg-gray-200;
 
 }
