@@ -93,8 +93,8 @@ const StudiousMemesContainer = ({
   <>
     <div className="main flex flex-col m-5">
       <div className="header">
-        <div className="text-3xl font-bold text-gray-600 mb-4">
-          Stories from Hacker news api
+        <div className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+          Stories from the Hacker News api
         </div>
       </div>
 
@@ -118,10 +118,10 @@ const StudiousMeme = ({
   <>
     <div className="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500">
       <div className="left">
-        <div className="header text-blue-600 font-semibold text-2xl">
+        <div className="header text-blue-700 dark:text-blue-500 font-semibold text-2xl">
           {item.title}
         </div>
-        <div className="desc text-gray-600">
+        <div className="desc text-gray-600 dark:text-gray-100">
           {item.author} 
           : {item.num_comments} comments
           : {item.points} points
