@@ -65,6 +65,6 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-500 dark:bg-gray-800;
+  @apply bg-gray-200;
 
 }
