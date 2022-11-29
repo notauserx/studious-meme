@@ -98,8 +98,11 @@ const StudiousMemesContainer = ({
         </div>
       </div>
 
-      {list.map((s) => (
-        <StudiousMeme item={s} onRemoveItem={onRemoveItem} />
+      {list.map((item) => (
+        <StudiousMeme 
+          key={item.objectID}
+          item={item} 
+          onRemoveItem={onRemoveItem} />
       ))}
     </div>
   </>
