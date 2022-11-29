@@ -6,7 +6,6 @@ import {
   FaSun,
 } from "react-icons/fa";
 import useDarkMode from "../../hooks/useDarkMode";
-import useTheme from "../../hooks/useTheme";
 
 const TopNavigation = () => {
   return (
@@ -27,24 +26,6 @@ const TopNavigation = () => {
 const MenuItems = () => {
   return <></>;
 };
-
-const ThemeToggle = () => {
-  const [theme, setTheme] = useTheme();
-
-  const icon =
-    theme === "dark" ? (
-      <span onClick={() => setTheme("")}>
-        <FaMoon className="top-navigation-icon" />
-      </span>
-    ) : (
-      <span onClick={() => setTheme("dark")}>
-        <FaSun className="top-navigation-icon" />
-      </span>
-    );
-
-  return icon;
-};
-
 
 const ThemeIcon = () => {
   const [darkTheme, setDarkTheme] = useDarkMode();
