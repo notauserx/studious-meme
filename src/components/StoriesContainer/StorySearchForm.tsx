@@ -1,12 +1,11 @@
 import { ChangeEvent, FC, FormEvent, ReactNode, useState } from "react";
-import { FaSearch } from "react-icons/fa";
 
 type SeachFormContainerProps = {
   onSearchSubmit: (event: FormEvent<HTMLFormElement>) => void;
   children: ReactNode;
 };
 
-const SeachFormContainer: React.FC<SeachFormContainerProps> = ({
+const StorySeachFormContainer: React.FC<SeachFormContainerProps> = ({
   onSearchSubmit,
   children,
 }) => (
@@ -17,7 +16,7 @@ const SeachFormContainer: React.FC<SeachFormContainerProps> = ({
   </div>
 );
 
-const SearchForm = ({
+const StorySearchForm = ({
   searchTerm,
   onSearchInput,
   onSearchSubmit,
@@ -26,11 +25,11 @@ const SearchForm = ({
   onSearchInput: (event: ChangeEvent<HTMLInputElement>) => void;
   onSearchSubmit: (event: FormEvent<HTMLFormElement>) => void;
 }) => (
-  <SeachFormContainer onSearchSubmit={onSearchSubmit}>
-    <SearchHeader />
-    <Search searchTerm={searchTerm} onSearchInput={onSearchInput} />
+  <StorySeachFormContainer onSearchSubmit={onSearchSubmit}>
+    <StorySearchHeader />
+    <StorySearchInput searchTerm={searchTerm} onSearchInput={onSearchInput} />
 
-    <TagSelect tag="" />
+    <StorySearchTagSelect tag="" />
 
     <button
       type="submit"
@@ -38,10 +37,10 @@ const SearchForm = ({
     >
       Search
     </button>
-  </SeachFormContainer>
+  </StorySeachFormContainer>
 );
 
-const SearchHeader = () => (
+const StorySearchHeader = () => (
   <>
     <h2 className="text-2xl font-bold ">Search</h2>
     <p className="my-4 opacity-70">Narrow down on your search</p>
@@ -49,7 +48,7 @@ const SearchHeader = () => (
   </>
 );
 
-const Search = ({
+const StorySearchInput = ({
   searchTerm,
   onSearchInput,
 }: {
@@ -72,7 +71,7 @@ type tagSelectProps = {
   tag: string;
 };
 
-const TagSelect: FC<tagSelectProps> = ({ tag }) => {
+const StorySearchTagSelect: FC<tagSelectProps> = ({ tag }) => {
   const [searchTag, setSearchTag] = useState(tag);
 
   const changeTag = (newTag: string): void => {
@@ -84,7 +83,7 @@ const TagSelect: FC<tagSelectProps> = ({ tag }) => {
       <label className="uppercase text-sm font-bold opacity-70">Tags</label>
       <select
         id="search-tag-select"
-        className="w-full p-3 mt-2 mb-4 w-full bg-white dark:bg-gray-900 rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
+        className="w-full p-3 mt-2 mb-4 bg-white dark:bg-gray-900 rounded border-2 border-slate-200 focus:border-slate-600 focus:outline-none"
         onChange={(event) => changeTag(event.target.value)}
         value={searchTag}
       >
@@ -97,4 +96,4 @@ const TagSelect: FC<tagSelectProps> = ({ tag }) => {
   );
 };
 
-export default SearchForm;
+export default StorySearchForm;
