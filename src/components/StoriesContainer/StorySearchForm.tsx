@@ -5,7 +5,7 @@ type SeachFormContainerProps = {
   children: ReactNode;
 };
 
-const StorySeachFormContainer: React.FC<SeachFormContainerProps> = ({
+const SeachFormContainer: React.FC<SeachFormContainerProps> = ({
   onSearchSubmit,
   children,
 }) => (
@@ -25,11 +25,11 @@ const StorySearchForm = ({
   onSearchInput: (event: ChangeEvent<HTMLInputElement>) => void;
   onSearchSubmit: (event: FormEvent<HTMLFormElement>) => void;
 }) => (
-  <StorySeachFormContainer onSearchSubmit={onSearchSubmit}>
-    <StorySearchHeader />
-    <StorySearchInput searchTerm={searchTerm} onSearchInput={onSearchInput} />
+  <SeachFormContainer onSearchSubmit={onSearchSubmit}>
+    <SearchHeader />
+    <SearchInput searchTerm={searchTerm} onSearchInput={onSearchInput} />
 
-    <StorySearchTagSelect tag="" />
+    <SearchTagSelect tag="" />
 
     <button
       type="submit"
@@ -37,10 +37,10 @@ const StorySearchForm = ({
     >
       Search
     </button>
-  </StorySeachFormContainer>
+  </SeachFormContainer>
 );
 
-const StorySearchHeader = () => (
+const SearchHeader = () => (
   <>
     <h2 className="text-2xl font-bold ">Search</h2>
     <p className="my-4 opacity-70">Narrow down on your search</p>
@@ -48,7 +48,7 @@ const StorySearchHeader = () => (
   </>
 );
 
-const StorySearchInput = ({
+const SearchInput = ({
   searchTerm,
   onSearchInput,
 }: {
@@ -71,7 +71,7 @@ type tagSelectProps = {
   tag: string;
 };
 
-const StorySearchTagSelect: FC<tagSelectProps> = ({ tag }) => {
+const SearchTagSelect: FC<tagSelectProps> = ({ tag }) => {
   const [searchTag, setSearchTag] = useState(tag);
 
   const changeTag = (newTag: string): void => {
