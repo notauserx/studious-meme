@@ -53,6 +53,6 @@ const ApiReferenceLink = () => (
   </a>
 )
 
-const Title = () => <h5 className="title-text">Studious-memes</h5>;
+const Title = () => (<h5 className="title-text">Studious-memes</h5>);
 
-export default TopNavigation;
+export { Title, GitHubLink, ApiReferenceLink, TopNavigation};
