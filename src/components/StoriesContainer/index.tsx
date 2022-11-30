@@ -9,8 +9,9 @@ import {
 } from "react";
 import useLocalStorageState from "../../hooks/useStorageState";
 import SearchForm from "./searchForm";
-import { storiesReducer, initialStories, Story } from "./types";
-import { FaExternalLinkAlt } from "react-icons/fa";
+import { initialStories, Story } from "./types";
+import useStoriesReducer from "../../hooks/useStoriesReducer";
+import StoriesList from "./StoriesList";
 
 const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
 
@@ -30,7 +31,7 @@ const StoriesContainer = () => {
     setUrl(`${API_ENDPOINT}${searchTerm}`);
   };
 
-  const [stories, dispatchStories] = useReducer(storiesReducer, {
+  const [stories, dispatchStories] = useReducer(useStoriesReducer, {
     data: [],
     isLoading: false,
     isError: false,
@@ -83,7 +84,7 @@ const StoriesContainer = () => {
             <p>Loading ...</p>
           </>
         ) : (
-          <StudiousMemesContainer
+          <StoriesList
             list={stories.data}
             onRemoveItem={handleRemoveStory}
           />
@@ -93,56 +94,6 @@ const StoriesContainer = () => {
   );
 };
 
-const StudiousMemesContainer = ({
-  list,
-  onRemoveItem,
-}: {
-  list: Story[];
-  onRemoveItem: (item: Story) => void;
-}) => (
-  <>
-    <div className="main flex flex-col m-5">
-      <div className="header">
-        <div className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-          Stories from the Hacker News api
-        </div>
-      </div>
 
-      {list.map((item) => (
-        <StudiousMeme
-          key={item.objectID}
-          item={item}
-          onRemoveItem={onRemoveItem}
-        />
-      ))}
-    </div>
-  </>
-);
-
-const StudiousMeme = ({
-  item,
-  onRemoveItem,
-}: {
-  item: Story;
-  onRemoveItem: (item: Story) => void;
-}) => (
-  <>
-    <div className="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500">
-      <div className="left">
-        <div className="header text-blue-700 dark:text-blue-500 font-semibold text-2xl">
-          {item.title}
-        </div>
-        <div className="desc text-gray-600 dark:text-gray-100">
-          {item.author}: {item.num_comments} comments : {item.points} points
-        </div>
-      </div>
-      <div className="right m-auto mr-0">
-        <a href={item.url} target="_blank">
-          <FaExternalLinkAlt />
-        </a>
-      </div>
-    </div>
-  </>
-);
 
 export default StoriesContainer;
