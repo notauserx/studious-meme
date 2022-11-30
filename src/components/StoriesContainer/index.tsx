@@ -9,8 +9,9 @@ import {
 } from "react";
 import useLocalStorageState from "../../hooks/useStorageState";
 import SearchForm from "./searchForm";
-import { storiesReducer, initialStories, Story } from "./types";
+import { initialStories, Story } from "./types";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import useStoriesReducer from "../../hooks/useStoriesReducer";
 
 const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
 
@@ -30,7 +31,7 @@ const StoriesContainer = () => {
     setUrl(`${API_ENDPOINT}${searchTerm}`);
   };
 
-  const [stories, dispatchStories] = useReducer(storiesReducer, {
+  const [stories, dispatchStories] = useReducer(useStoriesReducer, {
     data: [],
     isLoading: false,
     isError: false,
