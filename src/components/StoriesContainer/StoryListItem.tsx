@@ -9,7 +9,7 @@ const StoryListItem = ({
   onRemoveItem: (item: Story) => void;
 }) => (
   <>
-    <div className="each flex hover:shadow-lg select-none p-10 rounded-md border-gray-300 border mb-3 hover:border-gray-500 dark:border-gray-800">
+    <div className="story-list-item-container">
       
       <div className="left">
         <div className="header text-blue-700 dark:text-blue-500 font-semibold text-2xl">
