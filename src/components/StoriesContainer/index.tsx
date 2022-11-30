@@ -10,7 +10,7 @@ import {
 import useLocalStorageState from "../../hooks/useStorageState";
 import SearchForm from "./searchForm";
 import { initialStories, Story } from "./types";
-import { FaExternalLinkAlt } from "react-icons/fa";
+import { FaExternalLinkAlt, FaTrashAlt } from "react-icons/fa";
 import useStoriesReducer from "../../hooks/useStoriesReducer";
 
 const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
@@ -137,9 +137,12 @@ const StudiousMeme = ({
           {item.author}: {item.num_comments} comments : {item.points} points
         </div>
       </div>
-      <div className="right m-auto mr-0">
-        <a href={item.url} target="_blank">
+      <div className="flex right m-auto mr-0">
+        <a className="mx-3" href={item.url} target="_blank">
           <FaExternalLinkAlt />
+        </a>
+        <a onClick={() => onRemoveItem(item)}>
+          <FaTrashAlt />
         </a>
       </div>
     </div>
