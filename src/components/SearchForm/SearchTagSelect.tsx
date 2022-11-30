@@ -19,7 +19,7 @@ const SearchTagSelect: FC<searchTagSelectProps> = ({ tag, onTagChange }) => {
         <option value="">All</option>
         <option value="story">Story</option>
         <option value="poll">Poll</option>
-        <option value="comments">Comments</option>
+        <option value="comment">Comments</option>
       </select>
     </>
   );

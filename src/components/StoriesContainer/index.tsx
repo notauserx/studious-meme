@@ -12,6 +12,7 @@ import { initialStories, Story } from "./types";
 import useStoriesReducer from "../../hooks/useStoriesReducer";
 import StoriesList from "./StoriesList";
 import SearchForm from "../SearchForm";
+import urlHelper from "./urlHelper";
 
 const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
 
@@ -21,9 +22,10 @@ const StoriesContainer = () => {
     "react"
   );
 
-  const [searchTag, setSearchTag] = useState('all')
+  const [searchTag, setSearchTag] = useLocalStorageState('searchTag', '')
 
-  const [url, setUrl] = useState(`${API_ENDPOINT}${searchTerm}`);
+  // `${API_ENDPOINT}${searchTerm}`
+  const [url, setUrl] = useState(urlHelper(searchTerm, searchTag));
 
   const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -34,7 +36,7 @@ const StoriesContainer = () => {
   }
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
-    setUrl(`${API_ENDPOINT}${searchTerm}`);
+    setUrl(urlHelper(searchTerm, searchTag));
   };
 
   const [stories, dispatchStories] = useReducer(useStoriesReducer, {
@@ -79,8 +81,10 @@ const StoriesContainer = () => {
         
         <SearchForm 
           onSearchSubmit={handleSearchSubmit}
-          term={searchTerm} onTermChange={handleSearchInput} 
-          tag={searchTag} onTagChange={handleSearchTagChange}
+          term={searchTerm} 
+          onTermChange={handleSearchInput} 
+          tag={searchTag} 
+          onTagChange={handleSearchTagChange}
         />
       </div>
       <div className="w-3/4 pl-6">
@@ -100,7 +104,5 @@ const StoriesContainer = () => {
     </>
   );
 };
-
-
 
 export default StoriesContainer;
