@@ -52,6 +52,7 @@ describe("StoriesContainer", () => {
       expect(screen.queryByText(/Loading/)).toBeNull();
 
       // TODO :: figure out how to mock axios properly
+      // https://vitest.dev/api/#vi-mock
       // expect(screen.getByText("React")).toBeInTheDocument();
       // expect(screen.getByText("Redux")).toBeInTheDocument();
     });
