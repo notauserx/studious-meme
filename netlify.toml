@@ -1,0 +1,17 @@
+[[plugins]]
+ package = "netlify-plugin-visual-diff"
+ [plugins.inputs]
+   ignoreSelector = "#today,.copyright"
+
+   [[plugins.inputs.browser]]
+     name = "chrome"
+     width = 1024
+     height = 768
+
+   [[plugins.inputs.browser]]
+     name = "firefox"
+     width = 1920
+     height = 1080
+
+   [[plugins.inputs.browser]]
+     deviceName = "iPhone X"
