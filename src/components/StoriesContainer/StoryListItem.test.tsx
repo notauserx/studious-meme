@@ -3,8 +3,6 @@ import {
   render,
   screen,
   fireEvent,
-  waitFor,
-  waitForElementToBeRemoved,
 } from "@testing-library/react";
 import StoryListItem from "./StoryListItem";
 import { Story } from "./types";
