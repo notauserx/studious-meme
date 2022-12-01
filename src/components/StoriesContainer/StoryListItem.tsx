@@ -24,7 +24,7 @@ const StoryListItem = ({
           <FaExternalLinkAlt />
         </a>
         <a onClick={() => onRemoveItem(item)}>
-          <FaTrashAlt />
+          <FaTrashAlt title='dismiss-icon'/>
         </a>
       </div>
     </div>

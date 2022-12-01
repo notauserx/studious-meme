@@ -1,10 +1,16 @@
-import { describe, it, expect } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  waitForElementToBeRemoved,
+} from "@testing-library/react";
 import StoryListItem from "./StoryListItem";
 import { Story } from "./types";
 
 const storyOne: Story = {
-  title: "a",
+  title: "a story title",
   url: "aurl",
   author: "aa",
   num_comments: 3,
@@ -12,17 +18,34 @@ const storyOne: Story = {
   objectID: 4,
 };
 
-const onRemoveItem = (story: Story) => void {
-
-}
+const onRemoveItem = vi.fn();
 
 describe("Item", () => {
-  it("renders all properties", () => {
+  it("renders the story title", () => {
     render(<StoryListItem item={storyOne} onRemoveItem={onRemoveItem} />);
-    //expect(screen.getByText("aa")).toBeInTheDocument();
-    expect(screen.getByText("a")).toHaveAttribute(
-      "href",
-      "aurl"
-    );
+
+    expect(screen.getByText(/a story title/)).toBeInTheDocument();
+  });
+
+  it("renders the link to the story", () => {
+    render(<StoryListItem item={storyOne} onRemoveItem={onRemoveItem} />);
+
+    expect(screen.getByText(/a story title/)).toHaveAttribute("href", "aurl");
+  });
+
+  it("renders a dismiss icon", () => {
+    render(<StoryListItem item={storyOne} onRemoveItem={onRemoveItem} />);
+
+    expect(screen.getByTitle("dismiss-icon")).toBeInTheDocument();
+  });
+
+  it("calls the onRemoveItem when dismiss-icon is clicked", async () => {
+    render(<StoryListItem item={storyOne} onRemoveItem={onRemoveItem} />);
+
+    expect(screen.getByText(/a story title/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTitle("dismiss-icon"));
+
+    expect(onRemoveItem).toBeCalled();
   });
 });
