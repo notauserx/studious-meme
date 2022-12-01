@@ -16,7 +16,7 @@ const StoryListItem = ({
           <a href={item.url} target="_blank">{item.title}</a>
         </div>
         <div className="desc text-gray-600 dark:text-gray-100">
-          {item.author}: {item.num_comments} comments : {item.points} points
+          <span>{item.author}</span> {item.num_comments} comments : {item.points} points
         </div>
       </div>
       <div className="flex right m-auto mr-0">
@@ -24,7 +24,7 @@ const StoryListItem = ({
           <FaExternalLinkAlt />
         </a>
         <a onClick={() => onRemoveItem(item)}>
-          <FaTrashAlt />
+          <FaTrashAlt title='dismiss-icon'/>
         </a>
       </div>
     </div>

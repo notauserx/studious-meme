@@ -14,8 +14,6 @@ import StoriesList from "./StoriesList";
 import SearchForm from "../SearchForm";
 import urlHelper from "./urlHelper";
 
-const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
-
 const StoriesContainer = () => {
   const [searchTerm, setSearchTerm] = useLocalStorageState(
     "searchTerm",
@@ -24,7 +22,6 @@ const StoriesContainer = () => {
 
   const [searchTag, setSearchTag] = useLocalStorageState('searchTag', '')
 
-  // `${API_ENDPOINT}${searchTerm}`
   const [url, setUrl] = useState(urlHelper(searchTerm, searchTag));
 
   const handleSearchInput = (event: ChangeEvent<HTMLInputElement>) => {

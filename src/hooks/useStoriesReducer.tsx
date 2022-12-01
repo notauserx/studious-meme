@@ -1,34 +1,7 @@
 import { Story } from "../components/StoriesContainer/types";
+import { StoriesState, StoriesAction } from "./types";
 
-interface FetchStoriesInitAction {
-  type: 'FETCH_STORIES_INIT'
-}
 
-interface FetchStoriesSuccessAction {
-  type: 'FETCH_STORIES_SUCCESS',
-  payload: Story[]
-}
-
-interface FetchStoriesFailureAction {
-  type: 'FETCH_STORIES_FAILURE'
-}
-
-interface RemoveStoryAction {
-  type: 'REMOVE_STORY';
-  payload: Story;
-}
-
-type StoriesState = {
-  data: Story[],
-  isLoading: boolean,
-  isError: boolean,
-}
-
-type StoriesAction =
-  | FetchStoriesInitAction
-  | FetchStoriesSuccessAction
-  | FetchStoriesFailureAction
-  | RemoveStoryAction
 
 const useStoriesReducer = (state: StoriesState, action: StoriesAction) => {
   switch (action.type) {
